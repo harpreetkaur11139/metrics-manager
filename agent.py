@@ -1,53 +1,50 @@
 #Agent code 
 import os
 import click
+import datetime 
+import socket 
+from sys import exit
+import metrics
+from pprint import pprint
 
-def cpu_usage():
-    cpu=open("/proc/stat")
-    temp=cpu.readlines()[0].split()
-    total_time= sum(map(int,temp[1:]))
-    idle_time=int(temp[4])
-    cpu_per=(1-(idle_time/total_time))*100
-    return cpu_per
+VERSION = "0.1.0"
 
-def load_average():
-    return os.getloadavg()
-
-def disk_usage():
+class MetricsObject():
+    def __init__(self):
+        self.metric_obj = {}
+        self.metric_obj["timestamp"] = datetime.datetime.now()
+        self.metric_obj["hostname"] = socket.gethostname()
+        self.metric_obj["metrics"] = []
     
 
-def memory_usage():
-    memory=open("/proc/meminfo")
-    for i in memory.readlines():
-        if i.split(":")[0] == "MemTotal":
-            MT=i.split(":")[1].strip()
-        if i.split(":")[0] == "MemFree":
-            MF=i.split(":")[1].strip()
-        if i.split(":")[0] == "SwapTotal":
-            ST=i.split(":")[1].strip()
-        if i.split(":")[0] == "SwapFree":
-            SF=i.split(":")[1].strip()
-    MemoryUsed=int(MT[:-3])-int(MF[:-3])
-    SwapUsed=int(ST[:-3])-int(SF[:-3])
-    return {"MemoryUsagein kB": MemoryUsed, "SwapUsed in kB": SwapUsed}
+def validate_user():
+    user_id = os.getuid()
+    if user_id != 0:
+        return False 
+    return True
+
 
 @click.command()
 @click.option('-c', '--cpu', is_flag=True, help='Prints CPU Percentage usage')
 @click.option('-m', '--memory', is_flag=True, help='Prints Memory Percentage usage')
-@click.option('-la', '--loadavg', is_flag=True, help='Prints Load average of system')
+@click.option('-l', '--loadavg', is_flag=True, help='Prints Load average of system')
 def main(cpu,memory,loadavg):
+    """
+    The utiility for metric collector... 
+    """
+    ctx = click.get_current_context()
+    root_user = validate_user()
+    if not root_user:
+        click.echo(click.style("Command needs root privileges to gather metrics\nNot run with root privileges, so exiting...", fg='red'))
+        ctx.exit()
+
+    if True not in ctx.params.values():
+        click.echo(ctx.get_help())
+        ctx.exit()
+    
     if cpu:
-        print(cpu_usage())
+        pprint(metrics.cpu_usage())
     if memory:
-        print(memory_usage())
+        pprint(metrics.memory_usage())
     if loadavg:
-        print(load_average())
-
-
-
-
-
-
-
-
-
+        pprint(metrics.load_average())

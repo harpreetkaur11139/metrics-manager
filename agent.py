@@ -28,7 +28,8 @@ def validate_user():
 @click.option('-c', '--cpu', is_flag=True, help='Prints CPU Percentage usage')
 @click.option('-m', '--memory', is_flag=True, help='Prints Memory Percentage usage')
 @click.option('-l', '--loadavg', is_flag=True, help='Prints Load average of system')
-def main(cpu,memory,loadavg):
+@click.option('-p', '--ports', is_flag=True, help='Prints open ports')
+def main(cpu,memory,loadavg, ports):
     """
     The utiility for metric collector... 
     """
@@ -43,8 +44,12 @@ def main(cpu,memory,loadavg):
         ctx.exit()
     
     if cpu:
-        pprint(metrics.cpu_usage())
+        print(metrics.cpu_usage())
     if memory:
-        pprint(metrics.memory_usage())
+        print(metrics.memory_usage())
     if loadavg:
         pprint(metrics.load_average())
+    if ports:
+        print(metrics.open_ports())
+    
+

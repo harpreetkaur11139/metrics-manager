@@ -12,7 +12,7 @@ setup(
         ]
     },
     packages=find_packages(),
-    install_requires=['click'],
+    install_requires=['click','python-nmap'],
     platforms=['macOS', 'linux'],
     keywords=['metrics', 'utility', 'util', 'cli']
 )

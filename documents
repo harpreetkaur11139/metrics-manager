@@ -1,4 +1,13 @@
-Metrics required for monitoring : CPU, Memory,SWAP, Disk Usage, Inode usage Load Avg, Network in and out, Count of open ports
+Metrics required for monitoring : 
+CPU   - Done
+Memory - Done
+SWAP   - Done
+Load Avg  - Done
+Number of processes - 
+Disk Usage 
+Inode usage
+Network in and out,
+Count of open ports,
 
 
 

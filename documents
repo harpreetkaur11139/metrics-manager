@@ -1,0 +1,6 @@
+Metrics required for monitoring : CPU, Memory,SWAP, Disk Usage, Inode usage Load Avg, Network in and out, Count of open ports
+
+
+
+CPU Source : /proc/stat
+CPU calculation from /proc/stat : https://rosettacode.org/wiki/Linux_CPU_utilization#Python

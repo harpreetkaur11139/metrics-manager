@@ -4,3 +4,5 @@ Metrics required for monitoring : CPU, Memory,SWAP, Disk Usage, Inode usage Load
 
 CPU Source : /proc/stat
 CPU calculation from /proc/stat : https://rosettacode.org/wiki/Linux_CPU_utilization#Python
+
+IO calculation : https://www.kernel.org/doc/Documentation/ABI/testing/procfs-diskstats

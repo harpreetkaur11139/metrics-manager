@@ -3,7 +3,6 @@ import os
 import click
 import datetime 
 import socket 
-from sys import exit
 import metrics
 from pprint import pprint
 
@@ -29,7 +28,8 @@ def validate_user():
 @click.option('-m', '--memory', is_flag=True, help='Prints Memory Percentage usage')
 @click.option('-l', '--loadavg', is_flag=True, help='Prints Load average of system')
 @click.option('-p', '--ports', is_flag=True, help='Prints open ports')
-def main(cpu,memory,loadavg, ports):
+@click.option('-d', '--disk', is_flag=True, help='Prints disk usage')
+def main(cpu,memory,loadavg, ports,disk):
     """
     The utiility for metric collector... 
     """
@@ -48,8 +48,10 @@ def main(cpu,memory,loadavg, ports):
     if memory:
         print(metrics.memory_usage())
     if loadavg:
-        pprint(metrics.load_average())
+        print(metrics.load_average())
     if ports:
         print(metrics.open_ports())
+    if disk:
+        print(metrics.disk_usage())
     
 

@@ -1,5 +1,6 @@
 import os 
 import socket
+import subprocess
 
 def cpu_usage():
     cpu=open("/proc/stat")
@@ -18,7 +19,27 @@ def load_average():
     return {"load_avg" : os.getloadavg() }
 
 def disk_usage():
-    return 
+    """
+    [ {"fs": "/dev/xvda", "}, {}, {}]
+    """
+    process = subprocess.Popen(['df', '-h'],
+                        stdout=subprocess.PIPE, 
+                        stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    out=stdout.decode().split("\n")
+    ls=[]
+    dct = {'Filesystem': '', 'Size': '', 'Used': '', 'Avail': '', 'Use%': '', 'Mounted on': ''}
+    for i in out[1:]:
+        if i.startswith('/dev'):
+            temp=list(i.split())
+            dct["Filesystem"]=temp[0]
+            dct["Size"]=temp[1]
+            dct["Used"]=temp[2]
+            dct["Avail"]=temp[3]
+            dct["Use%"]=temp[4]
+            dct["Mounted on"]=temp[5]
+            ls.append(dct.copy())
+    return ls 
 
 def open_ports():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

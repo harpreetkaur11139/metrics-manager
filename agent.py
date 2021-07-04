@@ -4,7 +4,9 @@ import click
 import datetime 
 import socket 
 import metrics
+import data
 from pprint import pprint
+import time
 
 VERSION = "0.1.0"
 
@@ -31,7 +33,8 @@ def validate_user():
 @click.option('-d', '--disk', is_flag=True, help='Prints disk usage')
 @click.option('-i', '--inode', is_flag=True, help='Prints Inode usage')
 @click.option('-n', '--network', is_flag=True, help='Prints Network packets')
-def main(cpu,memory,loadavg, ports,disk,inode,network):
+@click.option('-b', '--background', is_flag=True, help='Recursively send data to master')
+def main(cpu,memory,loadavg, ports,disk,inode,network,background):
     """
     The utiility for metric collector... 
     """
@@ -46,18 +49,23 @@ def main(cpu,memory,loadavg, ports,disk,inode,network):
         ctx.exit()
     
     if cpu:
-        print(metrics.cpu_usage())
+        pprint(metrics.cpu_usage())
     if memory:
-        print(metrics.memory_usage())
+        pprint(metrics.memory_usage())
     if loadavg:
-        print(metrics.load_average())
+        pprint(metrics.load_average())
     if ports:
-        print(metrics.open_ports())
+        pprint(metrics.open_ports())
     if disk:
-        print(metrics.disk_usage())
+        pprint(metrics.disk_usage())
     if inode:
-        print(metrics.inode_usage())
+        pprint(metrics.inode_usage())
     if network:
-        print(metrics.network_usage())
+        pprint(metrics.network_usage())
+    if background:
+        pid = os.fork()
+        if pid == 0:
+            data.store_data()
+
 
 

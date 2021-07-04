@@ -42,13 +42,11 @@ def cpu_usage():
     return {"CPU_Usage" : cpu_per, "Process_Running" :  process_count}
 
 
-
 def load_average():
 
     """ Function to get Load Average """
 
     return {"load_avg" : os.getloadavg() }
-
 
 
 def inode_usage():
@@ -75,8 +73,6 @@ def inode_usage():
     return ls 
 
 
-
-
 def disk_usage():
 
     """Function to get Disk Usage statistics"""
@@ -101,7 +97,6 @@ def disk_usage():
     return ls 
 
 
-
 def open_ports():
 
     """ Function to get Port Usage statistics """
@@ -116,8 +111,6 @@ def open_ports():
             ls.append(i)
     sock.close()
     return {"TCP_Ports_open:":ls}
-
-
 
 
 def memory_usage():

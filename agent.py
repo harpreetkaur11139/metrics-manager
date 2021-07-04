@@ -29,7 +29,9 @@ def validate_user():
 @click.option('-l', '--loadavg', is_flag=True, help='Prints Load average of system')
 @click.option('-p', '--ports', is_flag=True, help='Prints open ports')
 @click.option('-d', '--disk', is_flag=True, help='Prints disk usage')
-def main(cpu,memory,loadavg, ports,disk):
+@click.option('-i', '--inode', is_flag=True, help='Prints Inode usage')
+@click.option('-n', '--network', is_flag=True, help='Prints Network packets')
+def main(cpu,memory,loadavg, ports,disk,inode,network):
     """
     The utiility for metric collector... 
     """
@@ -53,5 +55,9 @@ def main(cpu,memory,loadavg, ports,disk):
         print(metrics.open_ports())
     if disk:
         print(metrics.disk_usage())
-    
+    if inode:
+        print(metrics.inode_usage())
+    if network:
+        print(metrics.network_usage())
+
 

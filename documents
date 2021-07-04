@@ -4,8 +4,8 @@ Memory - Done
 SWAP   - Done
 Load Avg  - Done
 Number of processes - done
-Disk Usage - use df output 03/07
-Inode usage - use df output 03/07
+Disk Usage - done
+Inode usage - done
 Network in and out - /sys/class/net/INTERFACE/statistics/rx_packets 
 Count of open ports - done
 

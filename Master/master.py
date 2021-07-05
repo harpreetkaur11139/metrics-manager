@@ -20,7 +20,7 @@ def get_properties():
 def main():
     return "hello!"
 
-@app.route("/harry")
+@app.route("/harry", methods= ["GET"])
 def hello_harry():
     return "Hello from harry"
 

@@ -1,9 +1,18 @@
 import metrics
 import datetime 
 import socket
-import time   
+import time  
+import json
+import requests 
 
 host_name=socket.gethostname()
+
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, z):
+        if isinstance(z, datetime.datetime):
+            return (str(z))
+        else:
+            return super().default(z)
 
 def collect_data():
     dct={"Timestamp":"", "Hostname": "", "Metrics":{}}
@@ -25,7 +34,11 @@ def send_data(data):
     r = requests.post(url = API_ENDPOINT, data = data)
     pastebin_url = r.text
     print("The pastebin URL is:%s"%pastebin_url)"""
-    return data
+
+    API_ENDPOINT = "http://localhost:5001/metrics"
+    headers = {'content-type': 'application/json'}
+    r = requests.post(API_ENDPOINT, data = json.dumps(data,cls=DateTimeEncoder), headers = headers)
+    return r
     
 def store_data():
     while True:

@@ -5,3 +5,5 @@ lib
 metrics_manager.egg-info
 .Python
 pyvenv.cfg
+mongo
+master/mm_server.egg-info

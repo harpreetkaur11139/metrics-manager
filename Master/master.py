@@ -1,9 +1,20 @@
 from flask import Flask 
 from flask import render_template, request
 import json 
+from pymongo import MongoClient
+from pprint import pprint
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY']='e5ac358c-f0bf-11e5-9e39-d3b532c10a28'
+
+def send_data(data):
+    """Send data to mongoDB Server"""
+    client = MongoClient("mongodb://mongoadmin:secret@172.17.0.2:27017")
+    mydb = client["metrics"]
+    mycol = mydb["collections"]
+    x=mycol.insert_one(data)
+    return x
 
 
 def get_properties():
@@ -16,19 +27,16 @@ def get_properties():
     return json_object
 
 
-@app.route("/")
+@app.route("/health")
 def main():
-    return "hello!"
-
-@app.route("/harry", methods= ["GET"])
-def hello_harry():
-    return "Hello from harry"
+    return "Master is Healthy!"
 
 
 @app.route("/metrics", methods=["POST"])
 def get_metrics():
     json_data = request.json
-    print("json data is ", json_data)
+    #print("json data is ", json_data)
+    response=send_data(json_data)
     return ""
 
 
